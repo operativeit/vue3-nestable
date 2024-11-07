@@ -362,6 +362,7 @@ export default {
       const realPathTo = this.getRealNextPath(pathFrom, pathTo)
 
       const parentTo = this.getItemByPath(pathTo.slice(0,-1), this.value);
+      console.log('parentTo', parentTo);
 
       const removePath = this.getSplicePath(pathFrom, {
         numToRemove: 1,
