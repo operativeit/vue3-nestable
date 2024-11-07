@@ -361,6 +361,8 @@ export default {
       // so update next coordinates accordingly
       const realPathTo = this.getRealNextPath(pathFrom, pathTo)
 
+      const parentTo = this.getItemByPath(pathTo.slice(0,-1), this.value);
+
       const removePath = this.getSplicePath(pathFrom, {
         numToRemove: 1,
         childrenProp: this.childrenProp
@@ -372,7 +374,7 @@ export default {
         childrenProp: this.childrenProp
       })
 
-      if (!this.hook('beforeMove', { dragItem, pathFrom, pathTo: realPathTo })) return
+      if (!this.hook('beforeMove', { dragItem, pathFrom, pathTo: realPathTo, parentTo: parentTo })) return
 
       let items = this.value
 
