@@ -123,12 +123,17 @@ export default {
     itemClasses () {
       const isDragging = this.isDragging ? ['is-dragging'] : []
 
-      return [
+      $classes = [
         `nestable-item${this.isCopy ? '-copy' : ''}`,
         `nestable-item${this.isCopy ? '-copy' : ''}-${this.item[this.options.keyProp]}`,
         ...isDragging,
         ...this.normalizedClassProp
-      ]
+      ];
+
+      if (this.options.expandable) {
+          classes.push(this.item.expanded ? "is-active" : null);
+      }
+      return classes;
     }
   },
 
