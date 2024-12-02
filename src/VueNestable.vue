@@ -1,6 +1,6 @@
 <template>
   <div :class="['nestable', `nestable-${group}`, rtl ? 'nestable-rtl' : '']">
-    <ol class="nestable-list nestable-group">
+    <ol class="nestable-list nestable-group" :class="{'expandable': expandable}">
       <!-- No items in list -->
       <Placeholder
         v-if="listIsEmpty"
@@ -140,7 +140,12 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    }
+    },
+    expandable: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
   },
 
   provide () {
@@ -177,7 +182,8 @@ export default {
         dragItem: this.dragItem,
         keyProp: this.keyProp,
         classProp: this.classProp,
-        childrenProp: this.childrenProp
+        childrenProp: this.childrenProp,
+        expandable: this.expandable
       }
     },
     listStyles () {
@@ -375,6 +381,20 @@ export default {
         childrenProp: this.childrenProp
       })
 
+      if (this.expandable) {
+          const isOpen = dragItem.expanded
+          let path = realPathTo;
+          path.pop();
+          this.lastTouchedPath = path;
+          let item = this.getItemByPath(path)
+          if (item) {
+            item.expanded = true;
+          }
+          if (!isOpen && dragItem.expanded) {
+            dragItem.expanded = false;
+          }
+      }
+      
       if (!this.hook('beforeMove', { dragItem, pathFrom, pathTo: realPathTo, parentTo: parentTo })) return
 
       let items = this.value
